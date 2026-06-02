@@ -49,30 +49,32 @@
         .page.active { position: relative; top: 0; left: 0; right: 0; opacity: 1; visibility: visible; pointer-events: all; }
 
         /* MASONRY GRID */
-        .masonry-grid { column-count: 3; column-gap: 20px; }
-        @media (max-width: 1024px) { .masonry-grid { column-count: 2; } }
-        @media (max-width: 600px)  { .masonry-grid { column-count: 1; } }
+        .masonry-grid { column-count: 4; column-gap: 12px; }
+        @media (max-width: 1200px) { .masonry-grid { column-count: 3; } }
+        @media (max-width: 768px)  { .masonry-grid { column-count: 2; } }
+        @media (max-width: 480px)  { .masonry-grid { column-count: 1; } }
 
         /* CARD — proporção vem do data-ratio via JS */
         .card {
             break-inside: avoid;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             position: relative;
             background-color: var(--bg-surface);
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             border: 1px solid var(--border-subtle);
             transform: translateZ(0);
-            transition: transform 0.4s ease, border-color 0.4s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
-        .card:hover { transform: translateY(-4px); border-color: #333; }
+        .card:hover { transform: translateY(-3px); border-color: #333; }
 
         /* O padding-top cria o aspect-ratio dinâmico */
         .card-inner {
             position: relative;
             width: 100%;
             padding-top: 56.25%; /* fallback 16:9 */
+            max-height: 520px; /* limita vídeos verticais para não ocupar tela toda */
         }
 
         .card video {
@@ -87,16 +89,16 @@
 
         .card-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 20px;
+            padding: 12px;
             display: flex; flex-direction: column; justify-content: space-between;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.88) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.0) 40%, rgba(0,0,0,0.85) 100%);
             z-index: 2;
         }
-        .card-category { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary); font-weight: 600; }
-        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
-        .card-title { font-size: 22px; font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; }
-        .play-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; transition: all var(--transition-slow); }
-        .play-btn svg { width: 15px; height: 15px; fill: var(--text-primary); margin-left: 3px; transition: fill var(--transition-fast); }
+        .card-category { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.6); font-weight: 600; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; }
+        .card-title { font-size: 13px; font-weight: 600; line-height: 1.2; letter-spacing: -0.2px; }
+        .play-btn { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; transition: all var(--transition-slow); }
+        .play-btn svg { width: 12px; height: 12px; fill: var(--text-primary); margin-left: 2px; transition: fill var(--transition-fast); }
         .card:hover .play-btn { background: var(--text-primary); transform: scale(1.1); border-color: transparent; }
         .card:hover .play-btn svg { fill: #000; }
 
@@ -371,6 +373,12 @@ async function loadVideos() {
         const catLabels = { motion:'Motion', branding:'Branding', web:'Web / UI', geral:'Video',
                             social:'Social', institucional:'Institucional', fotografia:'Fotografia',
                             audiovisual:'Audiovisual', editorial:'Editorial' };
+
+        // Embaralha os vídeos a cada visita (Fisher-Yates shuffle)
+        for (let i = videos.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [videos[i], videos[j]] = [videos[j], videos[i]];
+        }
 
         // Cria os cards — a proporção é detectada quando o vídeo carrega
         grid.innerHTML = videos.map((v, i) => `

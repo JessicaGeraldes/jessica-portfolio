@@ -74,7 +74,7 @@
             position: relative;
             width: 100%;
             padding-top: 56.25%; /* fallback 16:9 */
-            max-height: 520px; /* limita vídeos verticais para não ocupar tela toda */
+            max-height: 340px; /* limita vídeos verticais */
         }
 
         .card video {
@@ -404,8 +404,16 @@ async function loadVideos() {
                 const w = video.videoWidth;
                 const h = video.videoHeight;
                 if (w && h) {
-                    // padding-top % = (height / width) * 100
-                    inner.style.paddingTop = ((h / w) * 100).toFixed(4) + '%';
+                    const ratio = h / w;
+                    let paddingPct;
+                    if (ratio > 1) {
+                        // vertical — reduz ~40% para não dominar o grid
+                        paddingPct = ratio * 100 * 0.60;
+                    } else {
+                        // horizontal — aumenta ~10% para dar mais presença
+                        paddingPct = ratio * 100 * 1.10;
+                    }
+                    inner.style.paddingTop = paddingPct.toFixed(4) + '%';
                 }
             });
 

@@ -151,6 +151,18 @@
         .modal-title { font-size: 26px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.5px; color: #fff; line-height: 1.2; }
         .modal-desc { font-size: 14px; line-height: 1.7; color: #888; margin-bottom: 20px; }
         .modal-credits { font-size: 12px; color: #555; padding-left: 12px; border-left: 2px solid #333; font-style: italic; line-height: 1.6; }
+        .modal-open-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: 24px;
+            font-size: 11px; color: #555; text-decoration: none;
+            border: 1px solid #333; border-radius: 6px;
+            padding: 8px 14px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer; background: transparent;
+        }
+        .modal-open-btn:hover { color: #fff; border-color: #666; }
+        .modal-open-btn svg { fill: currentColor; }
 
         /* Mobile: empilha */
         @media (max-width: 700px) {
@@ -328,6 +340,10 @@
             <h2 class="modal-title"    id="modalTitle"></h2>
             <p  class="modal-desc"     id="modalDesc"></p>
             <p  class="modal-credits"  id="modalCredits"></p>
+            <a  class="modal-open-btn" id="modalOpenBtn" target="_blank" rel="noopener">
+                <svg width="12" height="12" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Abrir em nova aba
+            </a>
         </div>
     </div>
 </div>
@@ -480,6 +496,7 @@ function openModal(card) {
     document.getElementById('modalTitle').textContent    = card.dataset.title;
     document.getElementById('modalDesc').textContent     = card.dataset.desc;
     document.getElementById('modalCredits').textContent  = '';
+    document.getElementById('modalOpenBtn').href         = url;
 
     // Ajusta largura do lado do vídeo conforme proporção
     const cardVideo = card.querySelector('video');

@@ -339,11 +339,11 @@
             <p  class="modal-category" id="modalCategory"></p>
             <h2 class="modal-title"    id="modalTitle"></h2>
             <p  class="modal-desc"     id="modalDesc"></p>
-            <p style="font-size:11px; color:#444; line-height:1.5; margin-top:20px;">A qualidade do vídeo pode estar reduzida devido à compressão para web. Para visualizar em alta qualidade, abra em nova aba.</p>
+            <p  id="modalQualityText"
+                style="font-size:11px; color:#444; line-height:1.5; margin-top:20px;"></p>
             <p  class="modal-credits"  id="modalCredits"></p>
             <a  class="modal-open-btn" id="modalOpenBtn" target="_blank" rel="noopener">
                 <svg width="12" height="12" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                Abrir em nova aba
             </a>
         </div>
     </div>
@@ -371,6 +371,8 @@ const translations = {
         contact_title:'Vamos criar<br>algo juntos.', contact_desc:'Estou disponível para projetos de edição de vídeo e motion design. Caso tenha uma ideia, projeto ou oportunidade, entre em contato.',
         form_name:'Nome', form_email:'Email', form_subject:'Assunto', form_msg:'Mensagem',
         form_btn:'Enviar mensagem', form_btn_sending:'Enviando...', form_success:'Mensagem enviada com sucesso.', form_error:'Não foi possível enviar. Tente novamente.'
+        modal_quality:'A qualidade do vídeo pode estar reduzida devido à compressão para web. Para visualizar em alta qualidade, abra em nova aba.',
+        modal_open:'Abrir em nova aba',
     },
     en: {
         nav_portfolio:'My Portfolio', nav_projects:'Projects', nav_about:'About', nav_contact:'Contact',
@@ -388,6 +390,9 @@ const translations = {
         contact_title:'Let\'s create<br>something together.', contact_desc:'I am available for video editing and motion design projects.',
         form_name:'Name', form_email:'Email', form_subject:'Subject', form_msg:'Message',
         form_btn:'Send message', form_btn_sending:'Sending...', form_success:'Message sent successfully.', form_error:'Could not send. Please try again.'
+        modal_quality:'Video quality may be reduced due to web compression. To view in high quality, open in a new tab.',
+        modal_open:'Open in new tab',
+
     },
     es: {
         nav_portfolio:'Mi Portafolio', nav_projects:'Proyectos', nav_about:'Sobre mí', nav_contact:'Contacto',
@@ -405,6 +410,8 @@ const translations = {
         contact_title:'Vamos a crear<br>algo juntos.', contact_desc:'Estoy disponible para proyectos de edición de video y motion design.',
         form_name:'Nombre', form_email:'Correo', form_subject:'Asunto', form_msg:'Mensaje',
         form_btn:'Enviar mensaje', form_btn_sending:'Enviando...', form_success:'Mensaje enviado con éxito.', form_error:'No se pudo enviar. Inténtalo de nuevo.'
+        modal_quality:'La calidad del video puede verse reducida debido a la compresión web. Para verlo en alta calidad, ábralo en una nueva pestaña.',
+        modal_open:'Abrir en una nueva pestaña',
     }
 };
 

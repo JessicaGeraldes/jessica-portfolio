@@ -410,6 +410,27 @@ const translations = {
 
 let currentLang = localStorage.getItem('portfolio_lang') || 'pt';
 const t = k => translations[currentLang][k] || k;
+    function parseDesc(raw) {
+    if (!raw) return { pt:'', en:'', es:'' };
+
+    const parts = { pt:'', en:'', es:'' };
+
+    raw.split('|').forEach(part => {
+        const idx = part.indexOf(':');
+
+        if (idx > -1) {
+            const key = part.slice(0, idx).trim().toUpperCase();
+            const val = part.slice(idx + 1).trim();
+
+            if (key === 'PT') parts.pt = val;
+            if (key === 'EN') parts.en = val;
+            if (key === 'ES') parts.es = val;
+        }
+    });
+
+    return parts;
+}
+    
 
 // ─── Carrega vídeos e cria cards com proporção correta ────────────────────────
 async function loadVideos() {
@@ -495,7 +516,16 @@ function openModal(card) {
 
     document.getElementById('modalCategory').textContent = catLabels[card.dataset.category] || card.dataset.category || '';
     document.getElementById('modalTitle').textContent    = card.dataset.title;
-    document.getElementById('modalDesc').textContent     = card.dataset.desc;
+    
+    const desc = parseDesc(card.dataset.desc);
+    
+    document.getElementById('modalDesc').textContent     =
+        desc[currentLang] ||
+        desc.pt ||
+        desc.en ||
+        desc.es ||
+        '';
+    
     document.getElementById('modalCredits').textContent  = '';
     document.getElementById('modalOpenBtn').href         = url;
 

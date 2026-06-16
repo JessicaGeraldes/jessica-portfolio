@@ -54,7 +54,7 @@
         @media (max-width: 768px)  { .masonry-grid { column-count: 2; } }
         @media (max-width: 480px)  { .masonry-grid { column-count: 1; } }
 
-        /* CARD — proporção vem do data-ratio via JS */
+        /* CARD */
         .card {
             break-inside: avoid;
             margin-bottom: 12px;
@@ -69,15 +69,15 @@
         }
         .card:hover { transform: translateY(-3px); border-color: #333; }
 
-        /* O padding-top cria o aspect-ratio dinâmico */
         .card-inner {
             position: relative;
             width: 100%;
             padding-top: 56.25%; /* fallback 16:9 */
-            max-height: 340px; /* limita vídeos verticais */
+            max-height: 340px;
         }
 
-        .card video {
+        /* Aceita tanto video quanto img (para os GIFs) */
+        .card .media-element {
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover; opacity: 0.55;
@@ -85,7 +85,7 @@
             transition: transform 0.8s ease, opacity var(--transition-slow);
             pointer-events: none;
         }
-        .card:hover video { transform: scale(1.04); opacity: 0.9; }
+        .card:hover .media-element { transform: scale(1.04); opacity: 0.9; }
 
         .card-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -127,7 +127,6 @@
         .btn-close { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: none; color: #fff; font-size: 16px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background var(--transition-fast); }
         .btn-close:hover { background: #000; }
 
-        /* Lado esquerdo — vídeo */
         .modal-video-wrap {
             flex-shrink: 0;
             width: 55%;
@@ -136,9 +135,8 @@
             overflow: hidden;
             border-radius: 16px 0 0 16px;
         }
-        .modal-video-wrap video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; max-height: 85vh; }
+        .modal-video-wrap video, .modal-video-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; max-height: 85vh; }
 
-        /* Lado direito — info */
         .modal-info {
             flex: 1;
             display: flex; flex-direction: column; justify-content: center;
@@ -163,15 +161,6 @@
         }
         .modal-open-btn:hover { color: #fff; border-color: #666; }
         .modal-open-btn svg { fill: currentColor; }
-
-        /* Mobile: empilha */
-        @media (max-width: 700px) {
-            .modal-content { flex-direction: column; max-height: 92vh; overflow-y: auto; width: 95vw; height: 92vh; }
-            .modal-video-wrap { width: 100%; flex: none; max-height: none; }
-            .modal-video-wrap video { width: 100%; height:auto; display: block; }
-            .modal-info { width: 100%; padding: 20px; box-sizing: border-box; }
-            .modal-title { font-size: 20px; }
-        }
 
         video::-internal-media-controls-download-button { display: none; }
         video::-webkit-media-controls-enclosure { overflow: hidden; }
@@ -217,16 +206,41 @@
         .form-status.success { color: #4caf50; display: block; }
         .form-status.error   { color: #f44336; display: block; }
 
-        @media (max-width: 900px) {
-            .sobre-hero, .contato-layout { grid-template-columns: 1fr; gap: 40px; }
-            .process-grid { grid-template-columns: 1fr; gap: 30px; }
-        }
-
         /* FLOATING MENU */
         .floating-menu { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(20,20,20,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); border-radius: 40px; display: flex; padding: 8px; z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .floating-menu a { color: var(--text-secondary); text-decoration: none; padding: 12px 28px; border-radius: 30px; font-size: 13px; font-weight: 500; transition: all 0.4s ease; }
         .floating-menu a:hover { color: var(--text-primary); }
         .floating-menu a.active { background-color: var(--text-primary); color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+
+        /* AJUSTES DE RESPONSIVIDADE PARA MOBILE */
+        @media (max-width: 900px) {
+            .sobre-hero, .contato-layout { grid-template-columns: 1fr; gap: 40px; }
+            .process-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .sobre-hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .contato-info h1 { font-size: 40px; letter-spacing: -1px; }
+            main { padding: 100px 5vw 120px 5vw; }
+            .sobre-hero, .contato-layout { gap: 32px; margin-bottom: 60px; }
+            .services-grid, .process-grid { margin-bottom: 60px; gap: 16px; }
+            
+            /* Ajusta o menu no mobile */
+            .floating-menu { width: 90%; max-width: 360px; justify-content: space-around; padding: 6px; }
+            .floating-menu a { padding: 10px 14px; font-size: 12px; }
+            
+            /* Ajustes no modal no celular */
+            .modal-content { flex-direction: column; max-height: 92vh; overflow-y: auto; width: 95vw; height: 92vh; }
+            .modal-video-wrap { width: 100%; flex: none; max-height: none; }
+            .modal-video-wrap video, .modal-video-wrap img { width: 100%; height: auto; display: block; }
+            .modal-info { width: 100%; padding: 24px 20px; box-sizing: border-box; }
+            .modal-title { font-size: 22px; }
+        }
+
+        @media (max-width: 380px) {
+            .sobre-hero h1 { font-size: 30px; }
+            .floating-menu a { padding: 8px 10px; font-size: 11px; }
+        }
     </style>
 </head>
 <body>
@@ -245,12 +259,11 @@
 </header>
 
 <main class="fade-text" id="mainContent">
-
     <section id="projetos" class="page active">
         <div class="masonry-grid" id="videoGrid">
             <div class="grid-state">
                 <div class="loading-spinner"></div>
-                <p>Carregando vídeos...</p>
+                <p>Carregando projetos...</p>
             </div>
         </div>
     </section>
@@ -331,6 +344,7 @@
         <button class="btn-close" id="closeModal">✕</button>
         <div class="modal-video-wrap" id="modalVideoWrap">
             <video id="modalVideoPlayer" controls controlsList="nodownload" disablePictureInPicture playsinline preload="auto"></video>
+            <img id="modalImgPlayer" style="display:none;">
         </div>
         <div class="modal-info">
             <p  class="modal-category" id="modalCategory"></p>
@@ -369,8 +383,8 @@ const translations = {
         contact_title:'Vamos criar<br>algo juntos.', contact_desc:'Estou disponível para projetos de edição de vídeo e motion design. Caso tenha uma ideia, projeto ou oportunidade, entre em contato.',
         form_name:'Nome', form_email:'Email', form_subject:'Assunto', form_msg:'Mensagem',
         form_btn:'Enviar mensagem', form_btn_sending:'Enviando...', form_success:'Mensagem enviada com sucesso.', form_error:'Não foi possível enviar. Tente novamente.',
-        modal_quality:'A qualidade do vídeo pode estar reduzida devido à compressão para web. Para visualizar em alta qualidade, abra em nova aba.',
-        modal_open:'Abrir em nova aba',
+        modal_quality:'A qualidade pode estar reduzida devido à compressão para web. Para visualizar em alta qualidade, abra em nova aba.',
+        modal_open:'Abrir em nova aba'
     },
     en: {
         nav_portfolio:'My Portfolio', nav_projects:'Projects', nav_about:'About', nav_contact:'Contact',
@@ -388,9 +402,8 @@ const translations = {
         contact_title:'Let\'s create<br>something together.', contact_desc:'I am available for video editing and motion design projects.',
         form_name:'Name', form_email:'Email', form_subject:'Subject', form_msg:'Message',
         form_btn:'Send message', form_btn_sending:'Sending...', form_success:'Message sent successfully.', form_error:'Could not send. Please try again.',
-        modal_quality:'Video quality may be reduced due to web compression. To view in high quality, open in a new tab.',
-        modal_open:'Open in new tab',
-
+        modal_quality:'Quality may be reduced due to web compression. To view in high quality, open in a new tab.',
+        modal_open:'Open in new tab'
     },
     es: {
         nav_portfolio:'Mi Portafolio', nav_projects:'Proyectos', nav_about:'Sobre mí', nav_contact:'Contacto',
@@ -408,36 +421,31 @@ const translations = {
         contact_title:'Vamos a crear<br>algo juntos.', contact_desc:'Estoy disponible para proyectos de edición de video y motion design.',
         form_name:'Nombre', form_email:'Correo', form_subject:'Asunto', form_msg:'Mensaje',
         form_btn:'Enviar mensaje', form_btn_sending:'Enviando...', form_success:'Mensaje enviado con éxito.', form_error:'No se pudo enviar. Inténtalo de nuevo.',
-        modal_quality:'La calidad del video puede verse reducida debido a la compresión web. Para verlo en alta calidad, ábralo en una nueva pestaña.',
-        modal_open:'Abrir en una nueva pestaña',
+        modal_quality:'La calidad puede verse reducida debido a la compresión web. Para verlo en alta calidad, ábralo en una nueva pestaña.',
+        modal_open:'Abrir en una nueva pestaña'
     }
 };
 
 let currentLang = localStorage.getItem('portfolio_lang') || 'pt';
 const t = k => translations[currentLang][k] || k;
-    function parseDesc(raw) {
+
+function parseDesc(raw) {
     if (!raw) return { pt:'', en:'', es:'' };
-
     const parts = { pt:'', en:'', es:'' };
-
     raw.split('|').forEach(part => {
         const idx = part.indexOf(':');
-
         if (idx > -1) {
             const key = part.slice(0, idx).trim().toUpperCase();
             const val = part.slice(idx + 1).trim();
-
             if (key === 'PT') parts.pt = val;
             if (key === 'EN') parts.en = val;
             if (key === 'ES') parts.es = val;
         }
     });
-
     return parts;
 }
-    
 
-// ─── Carrega vídeos e cria cards com proporção correta ────────────────────────
+// ─── Carrega vídeos/gifs e cria cards com proporção correta ────────────────────────
 async function loadVideos() {
     const grid = document.getElementById('videoGrid');
     try {
@@ -445,7 +453,7 @@ async function loadVideos() {
         const videos = await res.json();
 
         if (!videos.length) {
-            grid.innerHTML = '<div class="grid-state"><p>Nenhum vídeo ainda.</p></div>';
+            grid.innerHTML = '<div class="grid-state"><p>Nenhum projeto ainda.</p></div>';
             return;
         }
 
@@ -453,17 +461,22 @@ async function loadVideos() {
                             social:'Social', institucional:'Institucional', fotografia:'Fotografia',
                             audiovisual:'Audiovisual', editorial:'Editorial' };
 
-        // Embaralha os vídeos a cada visita (Fisher-Yates shuffle)
         for (let i = videos.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [videos[i], videos[j]] = [videos[j], videos[i]];
         }
 
-        // Cria os cards — a proporção é detectada quando o vídeo carrega
-        grid.innerHTML = videos.map((v, i) => `
-            <div class="card" data-video="${v.url}" data-title="${esc(v.title)}" data-desc="${esc(v.description||'')}" data-category="${esc(v.category||'geral')}" style="animation: cardIn 0.5s ease ${i*60}ms both">
+        // Gera o HTML diferenciando Video de GIF
+        grid.innerHTML = videos.map((v, i) => {
+            const isGif = v.url.toLowerCase().endsWith('.gif');
+            const mediaTag = isGif 
+                ? `<img src="${v.url}" class="media-element" loading="lazy">` 
+                : `<video class="media-element" muted loop playsinline preload="metadata" src="${v.url}#t=0.5"></video>`;
+            
+            return `
+            <div class="card" data-video="${v.url}" data-type="${isGif ? 'gif' : 'video'}" data-title="${esc(v.title)}" data-desc="${esc(v.description||'')}" data-category="${esc(v.category||'geral')}" style="animation: cardIn 0.5s ease ${i*60}ms both">
                 <div class="card-inner" id="inner-${v.id}">
-                    <video muted loop playsinline preload="metadata" src="${v.url}#t=0.5"></video>
+                    ${mediaTag}
                     <div class="card-overlay">
                         <span class="card-category">${catLabels[v.category] || v.category}</span>
                         <div class="card-bottom">
@@ -472,48 +485,53 @@ async function loadVideos() {
                         </div>
                     </div>
                 </div>
+            </div>`;
+        }).join('');
 
-            </div>`).join('');
-
-        // Detecta proporção de cada vídeo assim que os metadados carregam
+        // Gerencia os metadados para Masonry (GIFs usam "load", Vídeos usam "loadedmetadata")
         grid.querySelectorAll('.card').forEach(card => {
-            const video = card.querySelector('video');
+            const isGif = card.dataset.type === 'gif';
+            const media = card.querySelector('.media-element');
             const inner = card.querySelector('.card-inner');
 
-            video.addEventListener('loadedmetadata', () => {
-                const w = video.videoWidth;
-                const h = video.videoHeight;
-                if (w && h) {
-                    const ratio = h / w;
-                    if (ratio > 1) {
-                        // vertical — reduz para caber mais cards na linha
-                        inner.style.paddingTop = (ratio * 100 * 0.60).toFixed(4) + '%';
-                    } else {
-                        // horizontal
-                        inner.style.paddingTop = (ratio * 100 * 1.10).toFixed(4) + '%';
+            if (isGif) {
+                media.addEventListener('load', () => {
+                    const w = media.naturalWidth;
+                    const h = media.naturalHeight;
+                    if (w && h) {
+                        const ratio = h / w;
+                        inner.style.paddingTop = (ratio * 100 * (ratio > 1 ? 0.60 : 1.10)).toFixed(4) + '%';
                     }
-                }
-            });
+                });
+            } else {
+                media.addEventListener('loadedmetadata', () => {
+                    const w = media.videoWidth;
+                    const h = media.videoHeight;
+                    if (w && h) {
+                        const ratio = h / w;
+                        inner.style.paddingTop = (ratio * 100 * (ratio > 1 ? 0.60 : 1.10)).toFixed(4) + '%';
+                    }
+                });
+                card.addEventListener('mouseenter', () => media.play().catch(()=>{}));
+                card.addEventListener('mouseleave', () => media.pause());
+            }
 
-            // hover: play/pause
-            card.addEventListener('mouseenter', () => video.play().catch(()=>{}));
-            card.addEventListener('mouseleave', () => video.pause());
-
-            // click: abre modal
             card.addEventListener('click', () => openModal(card));
         });
 
     } catch(e) {
-        grid.innerHTML = '<div class="grid-state"><p>Não foi possível conectar ao servidor de vídeos.</p></div>';
+        grid.innerHTML = '<div class="grid-state"><p>Não foi possível conectar ao servidor.</p></div>';
     }
 }
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 const modal       = document.getElementById('projectModal');
 const modalPlayer = document.getElementById('modalVideoPlayer');
+const modalImg    = document.getElementById('modalImgPlayer');
 const modalWrap   = document.getElementById('modalVideoWrap');
 
 function openModal(card) {
+    const isGif    = card.dataset.type === 'gif';
     const url      = card.dataset.video;
     const catLabels = { motion:'Motion', branding:'Branding', web:'Web / UI', geral:'Video',
                         social:'Social', institucional:'Institucional', fotografia:'Fotografia',
@@ -523,46 +541,53 @@ function openModal(card) {
     document.getElementById('modalTitle').textContent    = card.dataset.title;
     
     const desc = parseDesc(card.dataset.desc);
-    
-    document.getElementById('modalDesc').textContent     =
-        desc[currentLang] ||
-        desc.pt ||
-        desc.en ||
-        desc.es ||
-        '';
+    document.getElementById('modalDesc').textContent = desc[currentLang] || desc.pt || desc.en || desc.es || '';
     
     document.getElementById('modalCredits').textContent  = '';
     document.getElementById('modalOpenBtn').href         = url;
     
     const qualityText = document.getElementById('modalQualityText');
-    if (qualityText) {
-        qualityText.textContent = translations[currentLang].modal_quality;
-    }
-
+    if (qualityText) qualityText.textContent = translations[currentLang].modal_quality;
+    
     const openBtnText = document.getElementById('modalOpenBtnText');
-    if (openBtnText) {
-        openBtnText.textContent = translations[currentLang].modal_open;
-    }
+    if (openBtnText) openBtnText.textContent = translations[currentLang].modal_open;
 
-    // Ajusta largura do lado do vídeo conforme proporção
-    const cardVideo = card.querySelector('video');
-    if (cardVideo.videoWidth && cardVideo.videoHeight) {
-        const isVertical = cardVideo.videoHeight > cardVideo.videoWidth;
-        modalWrap.style.width = isVertical ? '40%' : '60%';
+    // Alterna entre Vídeo ou Imagem no Modal
+    if (isGif) {
+        modalPlayer.style.display = 'none';
+        modalImg.style.display = 'block';
+        modalImg.src = url;
+        
+        modalImg.onload = () => {
+            const isVertical = modalImg.naturalHeight > modalImg.naturalWidth;
+            modalWrap.style.width = isVertical ? '40%' : '60%';
+        };
     } else {
-        modalWrap.style.width = '55%';
+        modalImg.style.display = 'none';
+        modalPlayer.style.display = 'block';
+        
+        const cardMedia = card.querySelector('.media-element');
+        if (cardMedia.videoWidth && cardMedia.videoHeight) {
+            const isVertical = cardMedia.videoHeight > cardMedia.videoWidth;
+            modalWrap.style.width = isVertical ? '40%' : '60%';
+        } else {
+            modalWrap.style.width = '55%';
+        }
+
+        modalPlayer.pause();
+        modalPlayer.removeAttribute('src');
+        modalPlayer.load();
+        modalPlayer.src = url;
     }
 
-    // Carrega e dá play sem travar
-    modalPlayer.pause();
-    modalPlayer.removeAttribute('src');
-    modalPlayer.load();
-    modalPlayer.src = url;
     modal.classList.add('active');
     document.body.classList.add('modal-open');
-    modalPlayer.play().catch(() => {
-        modalPlayer.addEventListener('canplay', () => modalPlayer.play().catch(()=>{}), { once: true });
-    });
+    
+    if (!isGif) {
+        modalPlayer.play().catch(() => {
+            modalPlayer.addEventListener('canplay', () => modalPlayer.play().catch(()=>{}), { once: true });
+        });
+    }
 }
 
 function closeModal() {
@@ -571,6 +596,7 @@ function closeModal() {
     modalPlayer.pause();
     modalPlayer.removeAttribute('src');
     modalPlayer.load();
+    modalImg.src = '';
     modalWrap.style.width = '';
 }
 
@@ -596,14 +622,10 @@ document.querySelectorAll('.floating-menu a, .logo').forEach(link => {
 const fadeEls = document.querySelectorAll('.fade-text');
 function applyLang(lang) {
     const qualityText = document.getElementById('modalQualityText');
-    if (qualityText) {
-        qualityText.textContent = translations[lang].modal_quality;
-    }
+    if (qualityText) qualityText.textContent = translations[lang].modal_quality;
 
     const openBtnText = document.getElementById('modalOpenBtnText');
-    if (openBtnText) {
-        openBtnText.textContent = translations[lang].modal_open;
-    }
+    if (openBtnText) openBtnText.textContent = translations[lang].modal_open;
 
     fadeEls.forEach(el => el.style.opacity = '0');
     setTimeout(() => {

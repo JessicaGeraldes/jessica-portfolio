@@ -36,8 +36,11 @@
         .logo .long  { position: absolute; left: 0; opacity: 0; transition: opacity var(--transition-fast); }
         .logo:hover .short { opacity: 0; }
         .logo:hover .long  { opacity: 1; }
-        .nav-title { font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; position: relative; }
+        
+        /* O título centralizado de forma absoluta para não empurrar os itens laterais */
+        .nav-title { font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; position: absolute; left: 50%; transform: translateX(-50%); }
         .nav-title::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background-color: var(--text-primary); }
+        
         .lang-selector { display: flex; gap: 8px; font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 1px; }
         .lang-selector span { cursor: pointer; transition: color var(--transition-fast); padding: 4px; }
         .lang-selector span.active, .lang-selector span:hover { color: var(--text-primary); }
@@ -76,7 +79,6 @@
             max-height: 340px;
         }
 
-        /* Aceita tanto video quanto img (para os GIFs) */
         .card .media-element {
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -212,33 +214,50 @@
         .floating-menu a:hover { color: var(--text-primary); }
         .floating-menu a.active { background-color: var(--text-primary); color: #000; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
 
-        /* AJUSTES DE RESPONSIVIDADE PARA MOBILE */
+        /* =========================================
+           AJUSTES FINAIS DE RESPONSIVIDADE (MOBILE)
+           ========================================= */
         @media (max-width: 900px) {
             .sobre-hero, .contato-layout { grid-template-columns: 1fr; gap: 40px; }
             .process-grid { grid-template-columns: 1fr; gap: 30px; }
         }
 
         @media (max-width: 768px) {
-            .sobre-hero h1 { font-size: 36px; letter-spacing: -1px; }
-            .contato-info h1 { font-size: 40px; letter-spacing: -1px; }
-            main { padding: 100px 5vw 120px 5vw; }
+            /* Textos menores e proporcionais */
+            .sobre-hero h1 { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 16px; }
+            .sobre-hero h3 { font-size: 16px; margin-bottom: 20px; }
+            .sobre-hero p  { font-size: 14px; line-height: 1.6; }
+            .contato-info h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 20px; }
+            .contato-info p { font-size: 15px; }
+            .section-title { font-size: 11px; margin-bottom: 24px; }
+            
+            /* Título do Header menor */
+            .nav-title { font-size: 11px; }
+
+            /* Espaçamentos gerais menores */
+            main { padding: 90px 5vw 120px 5vw; }
             .sobre-hero, .contato-layout { gap: 32px; margin-bottom: 60px; }
             .services-grid, .process-grid { margin-bottom: 60px; gap: 16px; }
             
-            /* Ajusta o menu no mobile */
+            /* Menu Flutuante não vaza na borda */
             .floating-menu { width: 90%; max-width: 360px; justify-content: space-around; padding: 6px; }
             .floating-menu a { padding: 10px 14px; font-size: 12px; }
             
-            /* Ajustes no modal no celular */
+            /* MODAL CORRIGIDO PARA MOBILE */
             .modal-content { flex-direction: column; max-height: 92vh; overflow-y: auto; width: 95vw; height: 92vh; }
-            .modal-video-wrap { width: 100%; flex: none; max-height: none; }
-            .modal-video-wrap video, .modal-video-wrap img { width: 100%; height: auto; display: block; }
-            .modal-info { width: 100%; padding: 24px 20px; box-sizing: border-box; }
-            .modal-title { font-size: 22px; }
+            
+            /* O !important aqui impede que o JavaScript esmague o vídeo no mobile */
+            .modal-video-wrap { width: 100% !important; flex: none; max-height: 45vh; border-radius: 16px 16px 0 0; }
+            .modal-video-wrap video, .modal-video-wrap img { width: 100%; height: 100%; display: block; object-fit: contain; }
+            
+            /* Textos do Modal proporcionais */
+            .modal-info { width: 100%; padding: 20px 16px; box-sizing: border-box; border-radius: 0 0 16px 16px; }
+            .modal-title { font-size: 20px; margin-bottom: 8px; }
+            .modal-desc { font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
         }
 
         @media (max-width: 380px) {
-            .sobre-hero h1 { font-size: 30px; }
+            .sobre-hero h1 { font-size: 24px; }
             .floating-menu a { padding: 8px 10px; font-size: 11px; }
         }
     </style>
@@ -259,6 +278,7 @@
 </header>
 
 <main class="fade-text" id="mainContent">
+    <!-- PROJETOS -->
     <section id="projetos" class="page active">
         <div class="masonry-grid" id="videoGrid">
             <div class="grid-state">
@@ -268,6 +288,7 @@
         </div>
     </section>
 
+    <!-- SOBRE -->
     <section id="sobre" class="page">
         <div class="sobre-hero">
             <div>
@@ -299,6 +320,7 @@
         </div>
     </section>
 
+    <!-- CONTATO -->
     <section id="contato" class="page">
         <div class="contato-layout">
             <div class="contato-info">
@@ -339,6 +361,7 @@
     <a href="#" data-target="contato"  data-i18n="nav_contact">Contato</a>
 </nav>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="projectModal">
     <div class="modal-content">
         <button class="btn-close" id="closeModal">✕</button>
@@ -488,7 +511,7 @@ async function loadVideos() {
             </div>`;
         }).join('');
 
-        // Gerencia os metadados para Masonry (GIFs usam "load", Vídeos usam "loadedmetadata")
+        // Gerencia os metadados para Masonry
         grid.querySelectorAll('.card').forEach(card => {
             const isGif = card.dataset.type === 'gif';
             const media = card.querySelector('.media-element');

@@ -726,7 +726,7 @@ document.getElementById('portfolioForm').addEventListener('submit', async e => {
     btn.textContent = t('form_btn_sending'); btn.disabled = true;
     status.className = 'form-status';
     try {
-        const res = await fetch('https://formsubmit.co/el/yakuko', {
+        const res = await fetch('https://formsubmit.co/ajax/' + atob('amVzc2ljYWdlcmFsZGVzMjYxMkBnbWFpbC5jb20='), {
             method:'POST', headers:{'Accept':'application/json'}, body: new FormData(e.target)
         });
         if (res.ok) { status.textContent = t('form_success'); status.classList.add('success'); e.target.reset(); }

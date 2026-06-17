@@ -41,9 +41,11 @@
         .nav-title { font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; position: absolute; left: 50%; transform: translateX(-50%); }
         .nav-title::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background-color: var(--text-primary); }
         
-        .lang-selector { display: flex; gap: 8px; font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 1px; }
-        .lang-selector span { cursor: pointer; transition: color var(--transition-fast); padding: 4px; }
-        .lang-selector span.active, .lang-selector span:hover { color: var(--text-primary); }
+        .lang-selector { display: flex; gap: 4px; align-items: center; }
+        .lang-selector span { cursor: pointer; font-size: 20px; padding: 4px; border-radius: 6px; opacity: 0.4; transition: opacity 0.2s, transform 0.2s; line-height: 1; }
+        .lang-selector span.active { opacity: 1; transform: scale(1.15); }
+        .lang-selector span:hover  { opacity: 0.85; }
+        @media (max-width: 768px) { .lang-selector span { font-size: 18px; padding: 3px; } }
 
         /* PAGE SYSTEM */
         main { padding: 120px 5vw 150px 5vw; position: relative; width: 100%; min-height: 100vh; transition: filter var(--transition-slow); }
@@ -222,43 +224,89 @@
             .process-grid { grid-template-columns: 1fr; gap: 30px; }
         }
 
-        @media (max-width: 768px) {
-            /* Textos menores e proporcionais */
-            .sobre-hero h1 { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 16px; }
-            .sobre-hero h3 { font-size: 16px; margin-bottom: 20px; }
-            .sobre-hero p  { font-size: 14px; line-height: 1.6; }
-            .contato-info h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 20px; }
-            .contato-info p { font-size: 15px; }
-            .section-title { font-size: 11px; margin-bottom: 24px; }
-            
-            /* Título do Header menor */
-            .nav-title { font-size: 11px; }
-
-            /* Espaçamentos gerais menores */
-            main { padding: 90px 5vw 120px 5vw; }
-            .sobre-hero, .contato-layout { gap: 32px; margin-bottom: 60px; }
-            .services-grid, .process-grid { margin-bottom: 60px; gap: 16px; }
-            
-            /* Menu Flutuante não vaza na borda */
-            .floating-menu { width: 90%; max-width: 360px; justify-content: space-around; padding: 6px; }
-            .floating-menu a { padding: 10px 14px; font-size: 12px; }
-            
-            /* MODAL CORRIGIDO PARA MOBILE */
-            .modal-content { flex-direction: column; max-height: 92vh; overflow-y: auto; width: 95vw; height: 92vh; }
-            
-            /* O !important aqui impede que o JavaScript esmague o vídeo no mobile */
-            .modal-video-wrap { width: 100% !important; flex: none; max-height: 45vh; border-radius: 16px 16px 0 0; }
-            .modal-video-wrap video, .modal-video-wrap img { width: 100%; height: 100%; display: block; object-fit: contain; }
-            
-            /* Textos do Modal proporcionais */
-            .modal-info { width: 100%; padding: 20px 16px; box-sizing: border-box; border-radius: 0 0 16px 16px; }
-            .modal-title { font-size: 20px; margin-bottom: 8px; }
-            .modal-desc { font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+        @media (max-width: 900px) {
+            .sobre-hero, .contato-layout { grid-template-columns: 1fr; gap: 40px; }
+            .process-grid { grid-template-columns: 1fr; gap: 30px; }
         }
 
-        @media (max-width: 380px) {
-            .sobre-hero h1 { font-size: 24px; }
-            .floating-menu a { padding: 8px 10px; font-size: 11px; }
+        @media (max-width: 768px) {
+            /* Header */
+            .nav-title { font-size: 11px; }
+            header { padding: 0 4vw; }
+
+            /* Main padding */
+            main { padding: 88px 4vw 110px 4vw; }
+
+            /* Sobre */
+            .sobre-hero { gap: 28px; margin-bottom: 60px; }
+            .sobre-hero h1 { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 14px; }
+            .sobre-hero h3 { font-size: 15px; margin-bottom: 18px; }
+            .sobre-hero p  { font-size: 14px; line-height: 1.6; }
+
+            /* Serviços / Processo */
+            .services-grid { gap: 14px; margin-bottom: 56px; }
+            .service-card  { padding: 28px 20px; }
+            .service-card h4 { font-size: 16px; }
+            .process-grid  { margin-bottom: 56px; }
+            .process-step h4 { font-size: 18px; }
+            .section-title { font-size: 10px; margin-bottom: 24px; }
+
+            /* Skills */
+            .skill-card { padding: 22px; }
+
+            /* Contato */
+            .contato-layout { gap: 28px; }
+            .contato-info h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 18px; }
+            .contato-info p  { font-size: 14px; margin-bottom: 30px; }
+            .contact-form    { padding: 28px 20px; }
+            .form-control    { padding: 13px; font-size: 14px; }
+
+            /* Menu flutuante */
+            .floating-menu { width: auto; max-width: 92vw; justify-content: space-around; padding: 6px; bottom: 24px; }
+            .floating-menu a { padding: 10px 16px; font-size: 12px; }
+
+            /* MODAL — empilha vídeo em cima, info embaixo */
+            .modal-overlay { padding: 0; align-items: flex-end; }
+            .modal-content {
+                flex-direction: column;
+                width: 100vw;
+                max-width: 100vw;
+                max-height: 95vh;
+                border-radius: 20px 20px 0 0;
+                overflow-y: auto;
+            }
+            .modal-video-wrap {
+                width: 100% !important;
+                flex: none;
+                height: 52vw;
+                max-height: 52vw;
+                min-height: 200px;
+                border-radius: 20px 20px 0 0;
+            }
+            .modal-video-wrap video,
+            .modal-video-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background: #000;
+            }
+            .modal-info {
+                padding: 20px 18px 32px;
+                border-radius: 0;
+                overflow-y: visible;
+            }
+            .modal-category { font-size: 9px; margin-bottom: 8px; }
+            .modal-title    { font-size: 18px; margin-bottom: 8px; }
+            .modal-desc     { font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+            .modal-open-btn { margin-top: 16px; font-size: 11px; padding: 7px 12px; }
+            .btn-close { top: 10px; right: 10px; width: 30px; height: 30px; font-size: 14px; }
+        }
+
+        @media (max-width: 480px) {
+            .sobre-hero h1  { font-size: 24px; }
+            .contato-info h1 { font-size: 26px; }
+            .floating-menu a { padding: 9px 12px; font-size: 11px; }
+            .modal-video-wrap { height: 56vw; max-height: 56vw; }
         }
     </style>
 </head>
@@ -271,9 +319,9 @@
     </a>
     <div class="nav-title fade-text" data-i18n="nav_portfolio">Meu portfólio</div>
     <div class="lang-selector">
-        <span data-lang="pt" class="active">PT</span> ·
-        <span data-lang="en">EN</span> ·
-        <span data-lang="es">ES</span>
+        <span data-lang="pt" class="active" title="Português">🇧🇷</span>
+        <span data-lang="en" title="English">🇺🇸</span>
+        <span data-lang="es" title="Español">🇪🇸</span>
     </div>
 </header>
 
@@ -387,7 +435,7 @@
 
 <script>
 // ─── Endereço do servidor ─────────────────────────────────────────────────────
-const VIDEO_SERVER = 'https://videovault-kf4t.onrender.com';
+const VIDEO_SERVER = atob('aHR0cHM6Ly92aWRlb3ZhdWx0LWtmNHQub25yZW5kZXIuY29t');
 
 // ─── i18n ─────────────────────────────────────────────────────────────────────
 const translations = {
